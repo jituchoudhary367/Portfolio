@@ -3,6 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageBoot from "@/components/PageBoot";
 import SectionDivider from "@/components/ui/SectionDivider";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const Hero = dynamic(() => import("@/components/sections/Hero"));
 const About = dynamic(() => import("@/components/sections/About"));
@@ -19,15 +20,25 @@ export default function Home() {
       <main className="bg-[var(--bg-primary)] text-[var(--text-primary)]">
         <Hero />
         <SectionDivider />
-        <About />
+        <ScrollReveal animation="fadeRight">
+          <About />
+        </ScrollReveal>
         <SectionDivider />
-        <Projects />
+        <ScrollReveal animation="fadeRight">
+          <Projects />
+        </ScrollReveal>
         <SectionDivider />
-        <Skills />
+        <ScrollReveal animation="fadeRight">
+          <Skills />
+        </ScrollReveal>
         <SectionDivider />
-        <GithubCerts />
+        <ScrollReveal animation="fadeRight">
+          <GithubCerts />
+        </ScrollReveal>
         <SectionDivider />
-        <Contact />
+        <ScrollReveal animation="fadeRight">
+          <Contact />
+        </ScrollReveal>
       </main>
       <Footer />
     </>

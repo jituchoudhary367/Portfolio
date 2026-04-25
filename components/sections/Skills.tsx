@@ -5,6 +5,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  ArrowRight,
   BarChart3,
   Clock,
   Cloud,
@@ -15,6 +16,7 @@ import {
   Minus,
   Plus,
   Sparkles,
+  Star,
   User,
   X,
 } from "lucide-react";
@@ -30,6 +32,21 @@ import DotGrid from "@/components/ui/DotGrid";
 import { cn } from "@/lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
+
+function Zigzag() {
+  const d = Array.from({ length: 20 })
+    .map((_, i) => `${i === 0 ? "M" : "L"}${i * 10},${i % 2 ? 10 : 0}`)
+    .join(" ");
+  return (
+    <svg
+      className="h-8 w-40 text-[var(--border)]"
+      viewBox="0 0 200 12"
+      aria-hidden
+    >
+      <path d={d} fill="none" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  );
+}
 
 function IconStackedCubes({
   className,
@@ -123,13 +140,13 @@ function Diagram({ id }: { id: string }) {
   }
 }
 
-type MetricDef = { label: string; value: string; Icon: typeof Gauge };
+type MetricDef = { label: string; value: string; Icon: typeof Gauge; desc?: string };
 
 const metricsBySkill: Record<string, MetricDef[]> = {
   "01": [
-    { label: "Scalability", value: "10X", Icon: Gauge },
-    { label: "Uptime", value: "99.9%", Icon: Clock },
-    { label: "Cost reduction", value: "40%", Icon: DollarSign },
+    { label: "Scalability", value: "10X", Icon: Gauge, desc: "Systems designed to handle 10x growth without re-architecture." },
+    { label: "Uptime", value: "99.9%", Icon: Clock, desc: "High availability systems with resilient infrastructure." },
+    { label: "Cost reduction", value: "40%", Icon: DollarSign, desc: "Optimized cloud usage and efficient resource allocation." },
   ],
   "02": [
     { label: "Velocity", value: "2X", Icon: Gauge },
@@ -236,39 +253,36 @@ export default function Skills() {
           </svg>
         </div>
 
-        <div className="mb-10 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-          <div className="flex min-w-0 flex-1 flex-col gap-8 lg:flex-row lg:gap-12 xl:gap-16">
-            <div className="min-w-0 shrink-0">
+        <div className="mb-12 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-1 flex-col gap-8 lg:flex-row lg:gap-16">
+            <div className="shrink-0">
               <p className="font-mono-label mb-2 flex items-center gap-2 text-xs text-[var(--accent)]">
                 <span>MY CAPABILITIES</span>
-                <span
-                  className="inline-block h-2 w-2 bg-[var(--accent)] shadow-[1px_1px_0_#0d0d0d]"
-                  aria-hidden
-                />
+                <span className="h-1.5 w-1.5 bg-[var(--accent)]" aria-hidden />
               </p>
-              <h2 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] text-[var(--text-primary)]">
-                <span className="inline-flex flex-wrap items-end gap-2 md:gap-3">
-                  <span>
-                    CAPABILITIES
-                    <br />
-                    THAT DRIVE IMPACT
-                  </span>
-                  <span
-                    className="mb-[0.12em] inline-block h-[0.22em] min-h-[8px] w-[0.22em] min-w-[8px] bg-[var(--accent)] shadow-[2px_2px_0_#0d0d0d]"
-                    aria-hidden
-                  />
-                </span>
+              <h2 className="font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.85] text-[var(--text-primary)]">
+                CAPABILITIES<br />THAT DRIVE IMPACT<span className="text-[var(--accent)]">.</span>
               </h2>
             </div>
-            <p className="max-w-md text-sm leading-relaxed text-[var(--text-secondary)] lg:max-w-lg lg:pt-8">
-              I combine technical depth with systems thinking to build scalable,
-              efficient, and user-focused solutions.
-            </p>
+            <div className="relative flex-1 lg:pt-10">
+              <p className="max-w-md text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                I combine technical depth with systems thinking to build scalable,
+                efficient, and user-focused solutions.
+              </p>
+              <div className="absolute -right-4 top-0 hidden lg:block">
+                <svg className="h-20 w-20 text-[var(--border)] opacity-20" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="1" />
+                </svg>
+                <div className="absolute left-full top-1/2 ml-4 -translate-y-1/2">
+                   <Zigzag />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
-          <div className="space-y-2">
+        <div className="grid gap-8 items-stretch lg:grid-cols-[420px_1fr]">
+          <div className="flex flex-col justify-between h-full">
             {SKILLS.map((s) => {
               const Icon = s.Icon;
               const isOpen = active.id === s.id;
@@ -278,33 +292,39 @@ export default function Skills() {
                   type="button"
                   onClick={() => setActive(s)}
                   className={cn(
-                    "flex w-full items-start gap-3 border-2 border-[var(--border)] p-4 text-left transition",
+                    "brutal-card group relative flex w-full items-center gap-5 p-5 text-left transition-all",
                     isOpen
-                      ? "border-l-4 border-l-[var(--accent)] bg-[var(--bg-dark)] text-white"
+                      ? "!bg-[var(--bg-dark)] text-white ring-2 ring-[var(--accent)]"
                       : "bg-white hover:bg-[var(--bg-primary)]",
                   )}
                 >
                   <span
                     className={cn(
-                      "flex h-10 w-10 shrink-0 items-center justify-center border-2 border-[var(--border)]",
+                      "flex h-14 w-14 shrink-0 items-center justify-center border-2 border-[var(--border)] transition-colors",
                       isOpen
-                        ? "border-white/25 bg-white/5 text-[var(--accent)]"
-                        : "bg-white text-[var(--text-primary)]",
+                        ? "border-white/20 bg-white/5 text-[var(--accent)]"
+                        : "bg-transparent text-[var(--text-primary)] group-hover:border-[var(--accent)]",
                     )}
                   >
-                    <Icon className="h-5 w-5" strokeWidth={1.5} />
+                    <Icon className="h-7 w-7" strokeWidth={1.5} />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="font-mono-label text-[10px] text-[var(--accent)]">
+                    <span className={cn(
+                      "font-mono-label text-[10px] tracking-widest",
+                      isOpen ? "text-[var(--accent)]" : "text-[var(--text-muted)]"
+                    )}>
                       {s.id}
                     </span>
-                    <span className="block font-display text-xl tracking-wide">
+                    <span className={cn(
+                      "block font-display text-xl tracking-tight",
+                      isOpen ? "text-white" : "text-[var(--text-primary)]"
+                    )}>
                       {s.title}
                     </span>
                     <span
                       className={cn(
-                        "mt-1 block text-xs",
-                        isOpen ? "text-white/70" : "text-[var(--text-secondary)]",
+                        "mt-1 block line-clamp-1 text-[11px]",
+                        isOpen ? "text-white/60" : "text-[var(--text-secondary)]",
                       )}
                     >
                       {s.desc}
@@ -312,109 +332,116 @@ export default function Skills() {
                   </span>
                   <span
                     className={cn(
-                      "shrink-0 font-mono-label text-xl leading-none",
-                      isOpen ? "text-[var(--accent)]" : "text-[var(--text-primary)]",
+                      "shrink-0 transition-colors",
+                      isOpen ? "text-[var(--accent)]" : "text-[var(--border)]",
                     )}
                   >
-                    {isOpen ? <Minus className="h-5 w-5" strokeWidth={2.5} /> : "+"}
+                    {isOpen ? <Minus className="h-5 w-5" strokeWidth={3} /> : <Plus className="h-5 w-5" strokeWidth={2} />}
                   </span>
                 </button>
               );
             })}
           </div>
 
-          <div className="hidden lg:block">
-            <AnimatePresence mode="wait">
+          <div className="hidden lg:flex flex-col">
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={active.id}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.3 }}
-                className="brutal-card relative flex flex-col gap-6 bg-[var(--bg-card)] p-6"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="brutal-card relative flex h-full flex-col bg-[var(--bg-card)] p-8 lg:p-10 pr-12"
               >
-                <span
-                  className="pointer-events-none absolute right-4 top-4 text-[var(--accent)]"
-                  aria-hidden
-                >
+                <div className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center bg-[var(--bg-dark)] text-white">
                   <X className="h-5 w-5" strokeWidth={2.5} />
-                </span>
+                </div>
 
-                <div className="grid gap-6 pr-8 lg:grid-cols-2 lg:items-start">
-                  <div>
-                    <p className="font-mono-label text-xs text-[var(--accent)]">
-                      {active.id} {active.title}
+                <div className="mb-6 grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+                  <div className="space-y-4">
+                    <p className="font-mono-label text-xs tracking-widest text-[var(--accent)]">
+                      {active.id}
                     </p>
-                    <h3 className="font-display mt-1 text-3xl tracking-tight text-[var(--text-primary)]">
+                    <h3 className="font-display text-4xl tracking-tight text-[var(--text-primary)]">
                       {active.title}
                     </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+                    <p className="max-w-xl text-[15px] leading-relaxed text-[var(--text-secondary)]">
                       {SKILL_LONG[active.id] ?? active.desc}
                     </p>
                   </div>
-                  <div className="border-2 border-[var(--border)] bg-[var(--bg-primary)] p-3">
+                  <div className="flex items-center justify-center border-b-2 border-[var(--border)] pb-8">
                     <Diagram id={active.id} />
                   </div>
                 </div>
 
-                <div className="grid gap-8 border-t-2 border-[var(--border-light)] pt-6 md:grid-cols-2">
-                  <div>
-                    <p className="font-mono-label mb-3 text-[10px] tracking-wider text-[var(--accent)]">
+                <div className="relative grid gap-12 border-t-2 border-[var(--border)] pt-10 lg:grid-cols-[1fr_0.8fr]">
+                  {/* Vertical Divider */}
+                  <div className="absolute bottom-0 left-[55%] top-10 hidden w-px bg-[var(--border)] opacity-20 lg:block" />
+
+                  <div className="pr-4">
+                    <p className="font-mono-label mb-6 flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-[var(--text-primary)]">
+                      <BarChart3 className="h-3.5 w-3.5" />
                       USED IN
                     </p>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       {miniProjects.map((p) => (
                         <a
                           key={p.id}
                           href={p.href}
-                          className="block border-2 border-[var(--border)] bg-white p-3 transition hover:bg-[var(--bg-primary)]"
+                          className="group flex gap-4 transition-transform hover:-translate-y-0.5"
                         >
-                          <div
-                            className={cn(
-                              "mb-2 h-14 w-full border border-[var(--border)] bg-gradient-to-br",
-                              p.id === "01" && "from-zinc-800 to-zinc-900",
-                              p.id === "02" && "from-zinc-700 to-zinc-800",
-                              p.id === "03" && "from-zinc-900 to-black",
-                            )}
-                          />
-                          <p className="font-display text-lg text-[var(--text-primary)]">
-                            {p.title}
-                          </p>
-                          <p className="mt-1 font-mono-label text-[9px] leading-relaxed text-[var(--text-muted)]">
-                            {p.subtitle}
-                          </p>
-                          <p className="mt-2 text-[11px] leading-snug text-[var(--text-secondary)]">
-                            {p.blurb}
-                          </p>
-                          <span className="mt-2 inline-block font-mono-label text-[10px] text-[var(--accent)]">
-                            View Project -&gt;
-                          </span>
+                          <div className="h-16 w-24 shrink-0 border-2 border-[var(--border)] bg-[var(--bg-primary)] overflow-hidden">
+                             {/* Placeholder for project thumbnail */}
+                             <div className="h-full w-full bg-gradient-to-br from-zinc-100 to-zinc-300 opacity-50 transition-opacity group-hover:opacity-80" />
+                          </div>
+                          <div className="flex flex-col justify-center">
+                            <p className="font-display text-base text-[var(--text-primary)]">
+                              {p.title}
+                            </p>
+                            <p className="mb-1 text-[11px] leading-tight text-[var(--text-secondary)]">
+                              {p.subtitle}
+                            </p>
+                            <span className="flex items-center gap-1 font-mono-label text-[10px] font-bold text-[var(--accent)]">
+                              View Project <ArrowRight className="h-3 w-3" />
+                            </span>
+                          </div>
                         </a>
                       ))}
                     </div>
                   </div>
-                  <div>
-                    <p className="font-mono-label mb-3 text-[10px] tracking-wider text-[var(--accent)]">
+
+                  <div className="pl-4">
+                    <p className="font-mono-label mb-6 flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-[var(--text-primary)]">
+                      <Gauge className="h-3.5 w-3.5" />
                       RESULTS
                     </p>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <div className="divide-y divide-[var(--border)] divide-opacity-10">
                       {(metricsBySkill[active.id] ?? metricsBySkill["01"]).map(
                         (m) => {
                           const MIcon = m.Icon;
                           return (
                             <div
                               key={m.label}
-                              className="flex flex-col items-center text-center sm:items-start sm:text-left"
+                              className="flex items-center gap-6 py-4 first:pt-0 last:pb-0"
                             >
-                              <span className="mb-2 flex h-12 w-12 items-center justify-center rounded-full border-2 border-[var(--border)] bg-[var(--bg-dark)] text-white">
-                                <MIcon className="h-5 w-5" strokeWidth={1.5} />
-                              </span>
-                              <p className="font-display text-2xl text-[var(--accent)]">
-                                {m.value}
-                              </p>
-                              <p className="font-mono-label text-[9px] uppercase tracking-wide text-[var(--text-muted)]">
-                                {m.label}
-                              </p>
+                              <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-[var(--bg-dark)] text-white shadow-[3px_3px_0_var(--accent)]">
+                                <MIcon className="h-5 w-5" />
+                              </div>
+                              <div className="flex flex-col">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-display text-2xl leading-none text-[var(--accent)]">
+                                    {m.value}
+                                  </span>
+                                  <span className="font-mono-label text-[10px] font-bold uppercase tracking-widest text-[var(--text-primary)]">
+                                    {m.label}
+                                  </span>
+                                </div>
+                                {m.desc && (
+                                  <p className="mt-1 max-w-[200px] text-[10px] leading-tight text-[var(--text-secondary)]">
+                                    {m.desc}
+                                  </p>
+                                )}
+                              </div>
                             </div>
                           );
                         },
@@ -427,30 +454,30 @@ export default function Skills() {
           </div>
         </div>
 
-        <div
-          ref={approachRef}
-          className="mt-10 border-2 border-[var(--border)] bg-[var(--bg-dark)] px-4 py-6 text-white md:px-8"
-        >
-          <p className="mb-4 flex items-center gap-2 font-mono-label text-xs text-[var(--accent)]">
-            <Sparkles className="h-4 w-4 shrink-0" strokeWidth={1.75} />
-            APPROACH
-          </p>
-          <div className="flex flex-wrap items-center gap-2 font-mono-label text-[10px] md:text-xs">
-            {[
-              "Understand Problem",
-              "Define Requirements",
-              "Design Architecture",
-              "Build & Integrate",
-              "Optimize & Iterate",
-            ].map((step, i, arr) => (
-              <span key={step} className="flex flex-wrap items-center gap-2">
-                <span>{step}</span>
-                {i < arr.length - 1 && (
-                  <span className="approach-arrow text-[var(--accent)]">→</span>
-                )}
-              </span>
-            ))}
-          </div>
+        <div className="mt-8">
+           <div className="brutal-card flex min-h-[80px] items-center bg-white">
+             <div className="flex h-full items-center gap-4 border-r-2 border-[var(--border)] px-8 py-6">
+               <Star className="h-5 w-5 text-[var(--accent)]" />
+               <span className="font-mono-label text-[11px] font-bold tracking-[0.2em] text-[var(--text-primary)] uppercase">APPROACH</span>
+             </div>
+             
+             <div className="flex flex-1 flex-nowrap items-center justify-between gap-2 px-4 overflow-x-auto md:px-12 scrollbar-hide">
+                {[
+                  "Understand Problem",
+                  "Define Requirements",
+                  "Design Architecture",
+                  "Build & Integrate",
+                  "Optimize & Iterate",
+                ].map((step, i, arr) => (
+                  <div key={step} className="flex shrink-0 items-center gap-4 lg:gap-12">
+                    <span className="font-mono-label text-[10px] font-bold uppercase tracking-widest text-[var(--text-primary)] whitespace-nowrap">{step}</span>
+                    {i < arr.length - 1 && (
+                      <ArrowRight className="approach-arrow h-4 w-4 shrink-0 text-[var(--accent)]" />
+                    )}
+                  </div>
+                ))}
+             </div>
+           </div>
         </div>
       </div>
     </section>

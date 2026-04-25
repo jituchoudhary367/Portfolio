@@ -6,4 +6,4 @@ export const linkedinUrl =
 
 export const githubProfileUrl =
   process.env.NEXT_PUBLIC_GITHUB_PROFILE_URL ??
-  `https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? "arjundev"}`;
+  `https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME ?? "jituchoudhary367"}`;

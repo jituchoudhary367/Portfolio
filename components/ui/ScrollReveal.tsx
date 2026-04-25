@@ -6,7 +6,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Animation = "fadeUp" | "fadeLeft" | "scaleIn";
+type Animation = "fadeUp" | "fadeLeft" | "fadeRight" | "scaleIn";
 
 export default function ScrollReveal({
   children,
@@ -29,7 +29,9 @@ export default function ScrollReveal({
         ? { y: 50, opacity: 0 }
         : animation === "fadeLeft"
           ? { x: -50, opacity: 0 }
-          : { scale: 0.8, opacity: 0 };
+          : animation === "fadeRight"
+            ? { x: 50, opacity: 0 }
+            : { scale: 0.8, opacity: 0 };
 
     const tween = gsap.fromTo(
       el,

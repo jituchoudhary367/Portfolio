@@ -47,7 +47,7 @@ export const projects: Project[] = [
     performance:
       "Handles 1M+ events/day with real-time processing under 200ms latency.",
     liveUrl: "https://velocity.demo",
-    codeUrl: "https://github.com/arjundev/velocity-analytics",
+    codeUrl: "https://github.com/jituchoudhary367/velocity-analytics",
   },
   {
     id: "02",
@@ -72,7 +72,7 @@ export const projects: Project[] = [
       "First websocket fan-out melted CPU; moved to room-sharded workers and capped payloads.",
     performance: "Sub-50ms updates for 500 concurrent users per workspace shard.",
     liveUrl: "https://flowstate.demo",
-    codeUrl: "https://github.com/arjundev/flowstate",
+    codeUrl: "https://github.com/jituchoudhary367/flowstate",
   },
   {
     id: "03",
@@ -97,6 +97,6 @@ export const projects: Project[] = [
       "Early double-charge bug from webhook retries; introduced idempotency keys everywhere.",
     performance: "P99 webhook handling under 180ms with queue-backed workers.",
     liveUrl: "https://paybridge.demo",
-    codeUrl: "https://github.com/arjundev/paybridge",
+    codeUrl: "https://github.com/jituchoudhary367/paybridge",
   },
 ];

@@ -91,6 +91,7 @@ export default function GithubCerts() {
   const [hasMore, setHasMore] = useState(true);
   const [langBytes, setLangBytes] = useState<Record<string, number>>({});
   const [openCert, setOpenCert] = useState<Certificate | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const username = getGithubUsername();
 
@@ -135,7 +136,8 @@ export default function GithubCerts() {
         if (cancelled) return;
         setRepos(first);
         setHasMore(first.length === 6);
-      } catch {
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load repositories");
         setRepos([]);
         setHasMore(false);
       }
@@ -235,12 +237,12 @@ export default function GithubCerts() {
 
   const stats = user
     ? {
-        repos: user.repositories.totalCount,
-        stars: user.starredRepositories.totalCount,
-        forks: forkTotal,
-        contribs:
-          user.contributionsCollection.contributionCalendar.totalContributions,
-      }
+      repos: user.repositories.totalCount,
+      stars: user.starredRepositories.totalCount,
+      forks: forkTotal,
+      contribs:
+        user.contributionsCollection.contributionCalendar.totalContributions,
+    }
     : { repos: 0, stars: 0, forks: 0, contribs: 0 };
 
   return (
@@ -253,10 +255,10 @@ export default function GithubCerts() {
         <div className="mb-10 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex min-w-0 flex-1 flex-col gap-8 lg:flex-row lg:gap-12 xl:gap-16">
             <div className="min-w-0 shrink-0">
-              <p className="font-mono-label mb-2 flex items-center gap-2 text-xs text-[var(--accent)]">
+              <p className="font-mono-label mb-2 flex items-center gap-2 text-xs text-[var(--text-primary)]">
                 <span>CREDENTIALS &amp; CODE</span>
                 <span
-                  className="inline-block h-2 w-2 bg-[var(--accent)] shadow-[1px_1px_0_#0d0d0d]"
+                  className="inline-block h-2 w-2 bg-[var(--text-primary)] shadow-[1px_1px_0_#0d0d0d]"
                   aria-hidden
                 />
               </p>
@@ -304,7 +306,7 @@ export default function GithubCerts() {
               <IconGithub className="h-5 w-5" />
             </span>
             <div className="mb-4 border-b-2 border-[var(--border)] pb-3 pr-12">
-              <p className="font-mono-label text-xs text-[var(--accent)]">
+              <p className="font-mono-label text-xs text-[var(--text-primary)]">
                 GITHUB OVERVIEW
               </p>
             </div>
@@ -330,7 +332,7 @@ export default function GithubCerts() {
                   {user?.bio ?? "Full-Stack Developer"}
                 </p>
                 <p className="mt-1 flex items-center gap-1 font-mono-label text-[10px] text-[var(--text-muted)]">
-                  <MapPin className="h-3 w-3 shrink-0 text-[var(--accent)]" />
+                  <MapPin className="h-3 w-3 shrink-0 text-[var(--text-primary)]" />
                   {user?.location ?? "India"}
                 </p>
               </div>
@@ -361,7 +363,7 @@ export default function GithubCerts() {
                     className="mx-auto mb-2 h-4 w-4 text-[var(--text-muted)]"
                     strokeWidth={1.5}
                   />
-                  <p className="font-display text-2xl text-[var(--accent)]">
+                  <p className="font-display text-2xl text-[var(--text-primary)]">
                     <NumberCounter target={s.value} />
                   </p>
                   <p className="font-mono-label text-[8px] uppercase tracking-wide text-[var(--text-muted)]">
@@ -373,7 +375,7 @@ export default function GithubCerts() {
 
             {heatmapWeeks.length > 0 && (
               <div className="mt-6">
-                <p className="font-mono-label mb-2 text-[10px] text-[var(--accent)]">
+                <p className="font-mono-label mb-2 text-[10px] text-[var(--text-primary)]">
                   CONTRIBUTIONS (RECENT WEEKS)
                 </p>
                 <div className="flex max-w-full gap-[2px] overflow-x-auto pb-2">
@@ -385,12 +387,12 @@ export default function GithubCerts() {
                           d.contributionCount === 0
                             ? "#e8e6e0"
                             : level < 0.25
-                              ? "rgba(0,255,136,0.25)"
+                              ? "rgba(28, 45, 37, 0.25)"
                               : level < 0.5
-                                ? "rgba(0,255,136,0.45)"
+                                ? "rgba(51, 51, 51, 0.45)"
                                 : level < 0.75
-                                  ? "rgba(0,255,136,0.65)"
-                                  : "#00ff88";
+                                  ? "rgba(31, 31, 31, 0.65)"
+                                  : "#000000ff";
                         return (
                           <div
                             key={d.date}
@@ -406,23 +408,7 @@ export default function GithubCerts() {
               </div>
             )}
 
-            {donutSlices.length > 0 && (
-              <div className="mt-6 grid gap-4 md:grid-cols-2 md:items-center">
-                <DonutChart slices={donutSlices} />
-                <div className="font-mono-label text-[10px] text-[var(--text-secondary)]">
-                  {donutSlices
-                    .map((s) => {
-                      const pct = Math.round(
-                        (s.value /
-                          donutSlices.reduce((a, x) => a + x.value, 0)) *
-                          100,
-                      );
-                      return `${s.label} ${pct}%`;
-                    })
-                    .join(" · ")}
-                </div>
-              </div>
-            )}
+
 
             <p className="font-mono-label mt-4 text-[10px] text-[var(--text-muted)]">
               TOP REPOSITORIES
@@ -431,6 +417,18 @@ export default function GithubCerts() {
               className="repo-scroll mt-2 max-h-[280px] space-y-2 overflow-y-auto overscroll-y-contain pr-1 touch-pan-y"
               data-lenis-prevent
             >
+              {error && (
+                <div className="border-2 border-red-500 bg-red-50 p-4 text-xs text-red-600">
+                  <p className="font-bold">Error loading GitHub data:</p>
+                  <p>{error}</p>
+                  <p className="mt-2">This is usually due to GitHub API rate limits. To fix this, add a <code className="bg-red-100 px-1">NEXT_PUBLIC_GITHUB_TOKEN</code> to your <code className="bg-red-100 px-1">.env</code> file.</p>
+                </div>
+              )}
+              {displayRepos.length === 0 && !loadingMore && !error && (
+                <p className="py-8 text-center font-mono-label text-[10px] text-[var(--text-muted)]">
+                  No public repositories found.
+                </p>
+              )}
               {displayRepos.map((repo, idx) => (
                 <a
                   key={repo.id}
@@ -499,7 +497,7 @@ export default function GithubCerts() {
 
           <div className="brutal-card flex flex-col bg-[var(--bg-card)] p-6">
             <div className="relative mb-4 border-b-2 border-[var(--border)] pb-3 pr-12">
-              <p className="font-mono-label text-xs text-[var(--accent)]">
+              <p className="font-mono-label text-xs text-[var(--text-primary)]">
                 CERTIFICATES
               </p>
               <span className="absolute right-0 top-0 flex h-9 w-9 items-center justify-center border-2 border-[var(--border)] bg-[var(--bg-dark)] text-white">
@@ -514,7 +512,7 @@ export default function GithubCerts() {
                   onClick={() => setOpenCert(c)}
                   className="brutal-card flex flex-col p-4 text-left transition hover:-translate-y-0.5"
                 >
-                  <p className="font-mono-label text-[9px] text-[var(--accent)]">
+                  <p className="font-mono-label text-[9px] text-[var(--text-primary)]">
                     {c.provider}
                   </p>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -524,7 +522,7 @@ export default function GithubCerts() {
                     className="my-3 h-8 w-auto object-contain"
                   />
                   <h3 className="font-display text-xl leading-none">{c.title}</h3>
-                  <p className="mt-2 text-[11px] text-[var(--text-muted)]">
+                  <p className="mt-2 text-[11px] text-[var(--text-primary)]">
                     {c.issuer} · Issued {c.issued}
                   </p>
                   <span className="mt-4 inline-flex h-8 w-8 items-center justify-center border-2 border-[var(--border)] bg-[var(--bg-dark)] text-[var(--accent)]">
@@ -532,47 +530,6 @@ export default function GithubCerts() {
                   </span>
                 </button>
               ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-10 border-2 border-[var(--border)] bg-[var(--bg-dark)] p-6 text-white md:p-8">
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
-            <Quote
-              className="mt-0.5 h-6 w-6 shrink-0 text-[var(--accent)]"
-              strokeWidth={1.5}
-            />
-            <p className="max-w-3xl text-sm leading-relaxed text-white/85">
-              Learning never stops. Certifications validate, but building makes it
-              real.
-            </p>
-          </div>
-          <div className="mt-8 flex flex-col items-stretch gap-6 border-t border-white/15 pt-6 md:flex-row md:items-center md:justify-center">
-            <div className="flex flex-col items-center text-center md:items-start md:text-left">
-              <p className="font-display text-2xl text-[var(--accent)] md:text-3xl">
-                <NumberCounter target={1200} suffix="+" />
-              </p>
-              <p className="font-mono-label text-[9px] uppercase tracking-wide text-white/60">
-                Hours Invested
-              </p>
-            </div>
-            <div className="hidden h-12 w-px bg-white/25 md:block" aria-hidden />
-            <div className="flex flex-col items-center text-center md:items-start md:text-left">
-              <p className="font-display text-2xl text-[var(--accent)] md:text-3xl">
-                <NumberCounter target={15} suffix="+" />
-              </p>
-              <p className="font-mono-label text-[9px] uppercase tracking-wide text-white/60">
-                Certifications
-              </p>
-            </div>
-            <div className="hidden h-12 w-px bg-white/25 md:block" aria-hidden />
-            <div className="flex flex-col items-center text-center md:items-start md:text-left">
-              <p className="font-display text-2xl text-[var(--accent)] md:text-3xl">
-                <NumberCounter target={30} suffix="+" />
-              </p>
-              <p className="font-mono-label text-[9px] uppercase tracking-wide text-white/60">
-                Courses Completed
-              </p>
             </div>
           </div>
         </div>

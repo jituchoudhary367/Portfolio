@@ -104,11 +104,11 @@ export default function Navbar() {
                 className={cn(
                   "font-mono-label text-xs tracking-wide transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]",
                   active === id
-                    ? "border-b-2 border-[var(--accent)] text-[var(--accent)]"
-                    : "text-[var(--text-primary)] hover:text-[var(--accent)]",
+                    ? "border-b-2 border-[var(--accent)] text-[var(--text-primary)]"
+                    : "text-[var(--text-primary)] hover:text-[var(--text-primary)]",
                 )}
               >
-                <span className="text-[var(--accent)]">{num}</span> {label}
+                <span className="text-[var(--text-muted)]">{num}</span> {label}
               </button>
             ))}
           </nav>
@@ -163,7 +163,7 @@ export default function Navbar() {
                   className={cn(
                     "text-left font-display text-5xl transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--bg-dark)]",
                     active === id
-                      ? "bg-[var(--bg-dark)] px-4 py-2 text-[var(--accent)]"
+                      ? "bg-[var(--bg-dark)] px-4 py-2 text-[var(--text-primary)]"
                       : "text-[var(--bg-dark)]",
                   )}
                 >

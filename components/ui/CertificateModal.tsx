@@ -21,10 +21,12 @@ export default function CertificateModal({
           onClick={onClose}
         >
           <motion.div
-            className="relative max-h-[90vh] w-full max-w-4xl overflow-auto border-2 border-[var(--border)] bg-white shadow-[8px_8px_0_#0d0d0d]"
-            initial={{ scale: 0.9, y: 40 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.9, y: 40 }}
+            className="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto border-2 border-[var(--border)] bg-white shadow-[12px_12px_0_#0d0d0d]"
+            initial={{ opacity: 0, rotateY: 45, x: 100, perspective: 2000 }}
+            animate={{ opacity: 1, rotateY: 0, x: 0 }}
+            exit={{ opacity: 0, rotateY: -45, x: -100 }}
+            transition={{ type: "spring", damping: 25, stiffness: 120 }}
+            style={{ transformOrigin: "left center" }}
             onClick={(e) => e.stopPropagation()}
           >
             <button

@@ -1,5 +1,5 @@
 const username =
-  process.env.NEXT_PUBLIC_GITHUB_USERNAME?.trim() || "octocat";
+  process.env.NEXT_PUBLIC_GITHUB_USERNAME?.trim() || "jituchoudhary367";
 
 function headers(): HeadersInit {
   const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
@@ -104,7 +104,10 @@ export async function fetchPublicRepos(page = 1, perPage = 6) {
     `https://api.github.com/users/${username}/repos?sort=stars&direction=desc&per_page=${perPage}&page=${page}&type=owner`,
     { headers: headers(), next: { revalidate: 300 } },
   );
-  if (!res.ok) throw new Error("Failed to load repositories");
+  if (!res.ok) {
+    console.error(`GitHub API error: ${res.status} ${res.statusText}`);
+    throw new Error("Failed to load repositories");
+  }
   return res.json() as Promise<GitHubRepo[]>;
 }
 

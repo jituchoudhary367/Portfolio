@@ -59,11 +59,10 @@ function FormField({
   error?: boolean;
   rows?: number;
 }) {
-  const fieldClass = `w-full border-2 bg-white px-3 py-3 font-mono-label text-xs text-[var(--text-primary)] outline-none transition-colors ${
-    error
-      ? "animate-pulse border-red-500"
-      : "border-[var(--border)] focus:border-[var(--accent)]"
-  } ${rows > 1 ? "min-h-[120px] resize-y" : ""}`;
+  const fieldClass = `w-full border-2 bg-white px-3 py-3 font-mono-label text-xs text-[var(--text-primary)] outline-none transition-colors ${error
+    ? "animate-pulse border-red-500"
+    : "border-[var(--border)] focus:border-[var(--accent)]"
+    } ${rows > 1 ? "min-h-[120px] resize-y" : ""}`;
 
   return (
     <label htmlFor={id} className="block">
@@ -144,7 +143,7 @@ export default function Contact() {
       <NoiseBg className="pointer-events-none absolute inset-0 -z-10 opacity-30" />
       <div className="mx-auto grid max-w-[1280px] gap-12 px-4 md:grid-cols-2 md:px-8">
         <div>
-          <p className="font-mono-label mb-2 text-xs text-[var(--accent)]">
+          <p className="font-mono-label mb-2 text-xs text-[var(--text-primary)]">
             GET IN TOUCH ■
           </p>
           <h2 className="font-display text-[clamp(3rem,8vw,6rem)] leading-[0.95]">
@@ -168,7 +167,7 @@ export default function Contact() {
                   className="group flex items-center justify-between border-2 border-transparent border-b-[var(--border-light)] py-3 transition hover:border-[var(--border)] hover:px-3"
                 >
                   <span className="flex items-center gap-3">
-                    <Icon className="h-4 w-4 text-[var(--accent)] transition group-hover:scale-110" />
+                    <Icon className="h-4 w-4 text-[var(--text-primary)] transition group-hover:scale-110" />
                     <span>
                       <span className="block font-mono-label text-[10px] text-[var(--text-muted)] group-hover:text-[var(--accent)]">
                         {row.label}
@@ -184,8 +183,8 @@ export default function Contact() {
         </div>
 
         <div className="relative brutal-card bg-white p-6 md:p-8">
-          <Plane className="absolute right-6 top-6 h-5 w-5 text-[var(--accent)]" />
-          <p className="font-mono-label mb-6 text-xs text-[var(--accent)]">
+          <Plane className="absolute right-6 top-6 h-5 w-5 text-[var(--text-primary)]" />
+          <p className="font-mono-label mb-6 text-xs text-[var(--text-primary)]">
             SEND A MESSAGE ■
           </p>
           <form onSubmit={onSubmit} className="space-y-4">

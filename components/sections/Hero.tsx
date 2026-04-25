@@ -6,12 +6,9 @@ import { useGSAP } from "@gsap/react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowDownRight,
-  Braces,
-  Cloud,
-  Code2,
   Plus,
-  Server,
 } from "lucide-react";
+import { IconAws, IconNodejs, IconPython, IconReact } from "@/components/icons/BrandIcons";
 import DotGrid from "@/components/ui/DotGrid";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useTypewriter } from "@/hooks/useTypewriter";
@@ -226,10 +223,10 @@ export default function Hero() {
     });
 
   const techItems = [
-    { icon: Code2, name: "REACT" },
-    { icon: Server, name: "NODE.JS" },
-    { icon: Braces, name: "PYTHON" },
-    { icon: Cloud, name: "AWS" },
+    { icon: IconReact, name: "REACT" },
+    { icon: IconNodejs, name: "NODE.JS" },
+    { icon: IconPython, name: "PYTHON" },
+    { icon: IconAws, name: "AWS" },
   ] as const;
 
   return (
@@ -286,7 +283,7 @@ export default function Hero() {
             </span>
           </h1>
           <p className="hero-sub font-mono-label mt-6 max-w-xl border-2 border-[var(--border)] bg-white px-4 py-3 text-[11px] leading-relaxed tracking-wide text-[var(--text-secondary)]">
-            FULL-STACK DEVELOPER. SYSTEMS THINKER. CODE THAT SHIPS.
+            MACHINE LEARNING ENGINEER. SAP ABAP DEVELOPER. CODE THAT SHIPS.
           </p>
           <div className="hero-cta mt-8 flex flex-wrap items-center gap-3">
             <MagneticButton
@@ -349,23 +346,22 @@ export default function Hero() {
             <p className="mb-4 font-mono-label text-[10px] font-bold tracking-[0.2em] text-[var(--text-primary)]">
               TECH STACK
             </p>
-            <div className="flex items-stretch justify-between gap-1 pr-6 sm:gap-2">
+            <div className="flex items-center justify-between gap-2 pr-6">
               {techItems.map((item, idx) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.name} className="flex min-w-0 flex-1 items-stretch">
-                    <div className="flex flex-1 flex-col items-center gap-2 py-1">
+                  <div key={item.name} className="flex min-w-0 flex-1 items-center">
+                    <div className="flex flex-1 flex-col items-center gap-3 py-1">
                       <Icon
-                        className="h-5 w-5 text-[var(--accent)] sm:h-6 sm:w-6"
-                        strokeWidth={1.5}
+                        className="h-7 w-7 text-[var(--text-primary)] sm:h-8 sm:w-8"
                       />
-                      <span className="text-center font-mono-label text-[9px] tracking-wide text-[var(--text-secondary)] sm:text-[10px]">
+                      <span className="text-center font-mono-label text-[8px] font-bold tracking-wider text-[var(--text-primary)] sm:text-[9px]">
                         {item.name}
                       </span>
                     </div>
                     {idx < techItems.length - 1 && (
                       <div
-                        className="mx-0.5 w-px shrink-0 bg-[var(--border)] opacity-60 sm:mx-1"
+                        className="h-10 w-[2px] shrink-0 bg-[var(--border)] opacity-30"
                         aria-hidden
                       />
                     )}

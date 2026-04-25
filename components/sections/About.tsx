@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import {
-  ArrowRight,
   Clock,
   Quote,
   User,
@@ -155,7 +154,7 @@ export default function About() {
     );
 
     gsap.fromTo(
-      dots.querySelectorAll(".timeline-dot"),
+      dots.querySelectorAll(".journey-dot"),
       { scale: 0 },
       {
         scale: 1,
@@ -194,10 +193,10 @@ export default function About() {
       <div className="relative mx-auto max-w-[1280px] px-4 md:px-8">
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="font-mono-label mb-2 flex items-center gap-2 text-xs text-[var(--accent)]">
+            <p className="font-mono-label mb-2 flex items-center gap-2 text-xs text-[var(--text-primary)]">
               <span>ABOUT ME</span>
               <span
-                className="inline-block h-2 w-2 bg-[var(--accent)] shadow-[1px_1px_0_#0d0d0d]"
+                className="inline-block h-2 w-2 bg-[var(--text-primary)] shadow-[1px_1px_0_#0d0d0d]"
                 aria-hidden
               />
             </p>
@@ -242,7 +241,7 @@ export default function About() {
             <CardCornerIcon label="Bio">
               <User className="h-4 w-4" strokeWidth={1.5} />
             </CardCornerIcon>
-            <p className="font-mono-label mb-3 text-xs text-[var(--accent)]">
+            <p className="font-mono-label mb-3 text-xs text-[var(--text-primary)]">
               01. BIO
             </p>
             <p className="font-display mb-4 text-xl uppercase leading-snug tracking-wide">
@@ -269,7 +268,7 @@ export default function About() {
             <CardCornerIcon label="Philosophy">
               <Quote className="h-4 w-4" strokeWidth={1.5} />
             </CardCornerIcon>
-            <p className="font-mono-label mb-3 text-xs text-[var(--accent)]">
+            <p className="font-mono-label mb-3 text-xs text-[var(--text-primary)]">
               02. PHILOSOPHY
             </p>
             <div className="border-l-4 border-[var(--accent)] pl-4">
@@ -288,7 +287,7 @@ export default function About() {
             <CardCornerIcon label="Tools">
               <Wrench className="h-4 w-4" strokeWidth={1.5} />
             </CardCornerIcon>
-            <p className="font-mono-label mb-3 text-xs text-[var(--accent)]">
+            <p className="font-mono-label mb-3 text-xs text-[var(--text-primary)]">
               03. TOOLS
             </p>
             <div ref={tagsRef} className="flex flex-wrap gap-2">
@@ -307,40 +306,36 @@ export default function About() {
         <ScrollReveal className="mt-8">
           <div className="journey-card brutal-card relative overflow-hidden bg-[var(--bg-card)] p-6 text-[var(--text-primary)] shadow-[4px_4px_0_#0d0d0d] md:p-8">
             <Clock
-              className="absolute right-5 top-5 h-5 w-5 text-[var(--accent)]"
+              className="absolute right-5 top-5 h-5 w-5 text-[var(--text-primary)]"
               strokeWidth={1.5}
             />
-            <p className="font-mono-label mb-8 text-xs text-[var(--accent)]">
+            <p className="font-mono-label mb-8 text-xs text-[var(--text-primary)]">
               04. JOURNEY
             </p>
 
-            <div ref={dotsRef} className="relative">
+            <div ref={dotsRef} className="relative mt-2">
               <div
                 ref={lineRef}
-                className="timeline-line pointer-events-none absolute left-[6%] right-[10%] top-[11px] z-0 h-0 border-t-2 border-dashed border-[var(--border)] md:left-[5%] md:right-[8%]"
+                className="journey-line pointer-events-none absolute left-[20px] right-[20px] top-[7px] z-0 h-0 border-t-2 border-dashed border-[var(--border)] opacity-30 hidden md:block"
               />
-              <div
-                className="pointer-events-none absolute right-[2%] top-[3px] z-0 text-[var(--border)] md:right-[1%]"
-                aria-hidden
-              >
-                <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-              </div>
-
-              <div className="relative z-10 grid gap-10 md:grid-cols-4 md:gap-6">
+              
+              <div className="relative z-10 grid gap-12 md:grid-cols-4 md:gap-6">
                 {milestones.map((m) => (
                   <div key={m.year} className="flex flex-col items-center text-center md:items-start md:text-left">
-                    <div className="timeline-dot mb-4 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[var(--accent)] bg-[var(--bg-card)]">
-                      <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
+                    <div className="journey-dot mb-6 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[var(--accent)] bg-[var(--bg-card)] shadow-[0_0_10px_rgba(var(--accent-rgb),0.2)]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
                     </div>
-                    <p className="font-display text-2xl text-[var(--accent)] md:text-3xl">
-                      {m.year}
-                    </p>
-                    <p className="font-display mt-1 text-xs uppercase tracking-wide text-[var(--text-primary)] md:text-sm">
-                      {m.title}
-                    </p>
-                    <p className="mt-2 text-[11px] leading-relaxed text-[var(--text-secondary)] md:text-xs">
-                      {m.desc}
-                    </p>
+                    <div className="flex flex-col gap-1">
+                      <p className="font-display text-2xl leading-none text-[var(--text-primary)] md:text-3xl">
+                        {m.year}
+                      </p>
+                      <p className="font-display text-[10px] uppercase tracking-wider text-[var(--accent)] md:text-xs">
+                        {m.title}
+                      </p>
+                      <p className="mt-2 text-[11px] leading-relaxed text-[var(--text-secondary)] md:text-xs">
+                        {m.desc}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -23,3 +23,40 @@ export function IconLinkedin({ className }: { className?: string }) {
     </svg>
   );
 }
+
+export function IconReact({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="-11.5 -10.2 23 20.4" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="0" cy="0" r="2.05" fill="currentColor"/>
+      <g stroke="currentColor" strokeWidth="1" fill="none">
+        <ellipse rx="11" ry="4.2"/>
+        <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+        <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+      </g>
+    </svg>
+  );
+}
+
+export function IconNodejs({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 1.5l8.6 5v10l-8.6 5-8.6-5v-10l8.6-5zm0 2.3L5.3 7.7v8.6L12 20l6.7-3.7v-8.6L12 3.8zm1.5 5.2c.8 0 1.5.7 1.5 1.5v3c0 .8-.7 1.5-1.5 1.5H12v-6h1.5zm-1.5 4.5h1.5v-3H12v3z"/>
+    </svg>
+  );
+}
+
+export function IconPython({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.5 2 7 4.3 7 4.3l.1 2.2h5v1H5.4S2 7.1 2 12.3s3.4 5.3 3.4 5.3h1.3V15.5c0-2.3 2.1-2.3 2.1-2.3h6.6c2.1 0 2.1-2 2.1-2V6.6s.1-2.1-2.1-2.1H12S12 2 12 2zm1 14h-5v-1h6.6s2.1 0 2.1-5.2V7.1h1.3s3.4 0 3.4 5.2-3.4 5.3-3.4 5.3H17s-.5 2.4-6 2.4z"/>
+    </svg>
+  );
+}
+
+export function IconAws({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13.2 16.5c-2.4 0-4.4-.9-5.3-1.8-.4-.4-.3-1 .2-1.3.4-.3.9-.2 1.3.1.6.6 1.9 1.3 3.8 1.3 2.1 0 3.1-.9 3.1-1.7 0-.7-.6-1.3-1.8-1.7l-1.9-.6c-2.4-.8-3.7-2.1-3.7-4 0-2.3 1.9-4 4.8-4 1.9 0 3.8.7 4.8 1.6.4.4.4 1 .1 1.4-.3.4-1 .4-1.4.1-.7-.6-2-.1-3.5-.1-1.7 0-2.6.8-2.6 1.6 0 .7.6 1.1 1.7 1.5l1.9.6c2.7.9 3.9 2.2 3.9 4.2.1 2.6-2.1 4.3-5.1 4.3zm-7.6-4.9c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5z"/>
+    </svg>
+  );
+}
